@@ -1,11 +1,6 @@
 var MakeSlidingDancer = function(top, left, timeBetweenSteps) {
   MakeDancer.apply(this, arguments);
-  this.height = $('body').height();
-  this.width = $('body').width();
-
   this.timeBetweenSteps = 50;
-  this.top = top;
-  this.left = left;
   this.vx = (Math.random() - .5) * 10;
   this.vy = (Math.random() - .5) * 10;
 };
