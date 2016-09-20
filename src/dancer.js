@@ -9,8 +9,6 @@ var MakeDancer = function(top, left, timeBetweenSteps) {
 
 MakeDancer.prototype.step = function() {
   var holder = this.step.bind(this);
-  console.log(holder);
-  console.log(this.timeBetweenSteps);
   setTimeout(function() {
     holder();
   }, this.timeBetweenSteps);

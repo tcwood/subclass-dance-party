@@ -1,5 +1,8 @@
 var MakeSlidingDancer = function(top, left, timeBetweenSteps) {
   MakeDancer.apply(this, arguments);
+  this.height = $('body').height();
+  this.width = $('body').width();
+
   this.timeBetweenSteps = 50;
   this.top = top;
   this.left = left;
@@ -13,8 +16,15 @@ MakeSlidingDancer.prototype.constructor = MakeSlidingDancer;
 var oldStep = MakeDancer.prototype.step;
 
 MakeSlidingDancer.prototype.step = function() {
-  var height = $('body').height();
-  var width = $('body').width();
+  if (this.top > this.height * .99 || this.top < this.height * .01) {
+    this.vy *= -1;
+  }
+  if (this.left > this.width * .99 || this.left < this.width * .01 ) {
+    this.vx *= -1;
+  }
+
+
+
 
 
   this.top += this.vy;
