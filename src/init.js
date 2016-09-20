@@ -1,6 +1,7 @@
 $(document).ready(function() {
   window.dancers = [];
   window.linedUp = false;
+  window.partneredUp = false;
   window.velocities = [];
 
   $('.addDancerButton').on('click', function(event) {
@@ -47,6 +48,7 @@ $(document).ready(function() {
       }
     } else {
       $(this).text('line em up');
+      $('.partnerUpButton').text('partner up');
       for (var i = 0; i < dancers.length; i++) {
         dancers[i].vx = velocities[i][0];
         dancers[i].vy = velocities[i][1];
@@ -54,4 +56,41 @@ $(document).ready(function() {
       window.velocities = [];
     }
   });
+
+  $('.partnerUpButton').on('click', function(event) {
+    window.partneredUp = window.partneredUp === false ? true : false;
+    if (window.partneredUp) {
+      $(this).text('party on!');
+      for (var i = 0; i < dancers.length; i++) {
+        velocities.push([dancers[i].vx, dancers[i].vy]);
+        dancers[i].vx = 0;
+        dancers[i].vy = 0;
+        if (i > dancers.length / 2 - 1) {
+          $(dancers[i]).animate({
+            top: dancers[i - Math.floor(dancers.length / 2)].top,
+            left: dancers[i - Math.floor(dancers.length / 2)].left + 20
+          }, 750);
+        }
+      }
+    } else {
+      $(this).text('partner up');
+      $('.lineUpButton').text('line em up');
+      for (var i = 0; i < dancers.length; i++) {
+        dancers[i].vx = velocities[i][0];
+        dancers[i].vy = velocities[i][1];
+      }      
+    }
+  });
+
+  $('.dancer').mouseenter(function() {
+    // console.log('mouseOver');
+    $(this).animate({ borderColor: 'blue' }, 500);
+  });
+
+  $(document).on('mouseenter', '.dancer', function() {
+    console.log(this);
+    $(this).animate({ borderWidth: '20px' }, 500);
+  });
+
+
 });
