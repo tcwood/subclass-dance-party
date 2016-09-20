@@ -27,7 +27,6 @@ body, a:link, a:visited, a:active{
   height: 200px;
   width: 200px;
   position:absolute;
-  /*background-image: url("jef.gif");*/
 }
 
 .flipped{
@@ -37,9 +36,4 @@ body, a:link, a:visited, a:active{
   transform: scaleX(-1);
   filter: FlipH;
   -ms-filter: "FlipH";
-}
-
-.hovered{
-  height: 400px;
-  width: 400px;
 }

@@ -70,15 +70,17 @@ $(document).ready(function() {
         $(this).text('party on!');
         for (var i = 0; i < dancers.length; i++) {
           velocities.push([dancers[i].vx, dancers[i].vy]);
-          dancers[i].vx = 0;
-          dancers[i].vy = 0;
+          
           if (i > dancers.length / 2 - 1) {
+            $($(dancers)[i].$node.children()[0]).addClass('flipped');
+            // console.log($(dancers)[i].$node.children()[0]);
             $(dancers[i]).animate({
               top: dancers[i - Math.floor(dancers.length / 2)].top,
               left: dancers[i - Math.floor(dancers.length / 2)].left + 100
             }, 750);
-            $(dancers[i]).addClass('flipped');
           }
+          dancers[i].vx = 0;
+          dancers[i].vy = 0;
         }
       } else {
         $(this).text('partner up');
@@ -92,15 +94,8 @@ $(document).ready(function() {
     }
   });
 
-  $('body').on('hover', '.dancer', function() {
-    // console.log('mouseOver');
-    $(this).addClass('hovered');
-  }, function() {
-    $(this).removeClass('hovered');
-  });
-
   $('body').on('mouseenter', '.dancer', function() {
-    console.log($(this).children()[0]);
+    // console.log($(this).children()[0]);
     $($(this).children()[0]).animate({
       height: '300px',
       width: 'auto'
@@ -108,7 +103,7 @@ $(document).ready(function() {
   });
 
   $('body').on('mouseleave', '.dancer', function() {
-    console.log($(this).children()[0]);
+    // console.log($(this).children()[0]);
     $($(this).children()[0]).animate({
       height: '200px',
       width: 'auto'
