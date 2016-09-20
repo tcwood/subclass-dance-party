@@ -21,7 +21,8 @@ body, a:link, a:visited, a:active{
   background-color: #777;
 }
 .dancer{
-  border:10px solid red;
-  border-radius:10px;
+  height: 200px;
+  width: 200px;
   position:absolute;
+  /*background-image: url("jef.gif");*/
 }

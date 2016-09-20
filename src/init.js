@@ -3,6 +3,7 @@ $(document).ready(function() {
   window.linedUp = false;
   window.partneredUp = false;
   window.velocities = [];
+  window.dancerTypes = ['cat.gif', 'jef.gif', 'mrBean.gif', 'oldDancer.gif', 'tentacleGuitar.gif'];
 
   $('.addDancerButton').on('click', function(event) {
     /* This function sets up the click handlers for the create-dancer
@@ -30,55 +31,63 @@ $(document).ready(function() {
       $('body').width() * (.05 + Math.random() * .9),
       Math.random() * 1000
     );
+    console.log(dancer.$node);
+    var randIndex = Math.floor(Math.random() * dancerTypes.length);
+    dancer.$node.append('<img src = ' + dancerTypes[1] + ' />');
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
   });
   $('.lineUpButton').on('click', function(event) {
-    window.linedUp = window.linedUp === false ? true : false;
-    if (window.linedUp) {
-      $(this).text('party on!');
-      for (var i = 0; i < dancers.length; i++) {
-        velocities.push([dancers[i].vx, dancers[i].vy]);
-        $(dancers[i]).animate({
-          top: dancers[i].height * .5,
-          left: dancers[i].width * (i + 1) / (dancers.length + 1)
-        }, 750);
-        dancers[i].vx = 0;
-        dancers[i].vy = 0;
+    if (dancers.length) {
+      window.linedUp = window.linedUp === false ? true : false;
+      if (window.linedUp) {
+        $(this).text('party on!');
+        for (var i = 0; i < dancers.length; i++) {
+          velocities.push([dancers[i].vx, dancers[i].vy]);
+          $(dancers[i]).animate({
+            top: dancers[i].height * .5,
+            left: dancers[i].width * (i + 1) / (dancers.length + 1)
+          }, 750);
+          dancers[i].vx = 0;
+          dancers[i].vy = 0;
+        }
+      } else {
+        $(this).text('line em up');
+        $('.partnerUpButton').text('partner up');
+        for (var i = 0; i < dancers.length; i++) {
+          dancers[i].vx = velocities[i][0];
+          dancers[i].vy = velocities[i][1];
+        }
+        window.velocities = [];
       }
-    } else {
-      $(this).text('line em up');
-      $('.partnerUpButton').text('partner up');
-      for (var i = 0; i < dancers.length; i++) {
-        dancers[i].vx = velocities[i][0];
-        dancers[i].vy = velocities[i][1];
-      }
-      window.velocities = [];
     }
   });
 
   $('.partnerUpButton').on('click', function(event) {
-    window.partneredUp = window.partneredUp === false ? true : false;
-    if (window.partneredUp) {
-      $(this).text('party on!');
-      for (var i = 0; i < dancers.length; i++) {
-        velocities.push([dancers[i].vx, dancers[i].vy]);
-        dancers[i].vx = 0;
-        dancers[i].vy = 0;
-        if (i > dancers.length / 2 - 1) {
-          $(dancers[i]).animate({
-            top: dancers[i - Math.floor(dancers.length / 2)].top,
-            left: dancers[i - Math.floor(dancers.length / 2)].left + 20
-          }, 750);
+    if (dancers.length) {
+      window.partneredUp = window.partneredUp === false ? true : false;
+      if (window.partneredUp) {
+        $(this).text('party on!');
+        for (var i = 0; i < dancers.length; i++) {
+          velocities.push([dancers[i].vx, dancers[i].vy]);
+          dancers[i].vx = 0;
+          dancers[i].vy = 0;
+          if (i > dancers.length / 2 - 1) {
+            $(dancers[i]).animate({
+              top: dancers[i - Math.floor(dancers.length / 2)].top,
+              left: dancers[i - Math.floor(dancers.length / 2)].left + 100
+            }, 750);
+          }
         }
+      } else {
+        $(this).text('partner up');
+        $('.lineUpButton').text('line em up');
+        for (var i = 0; i < dancers.length; i++) {
+          dancers[i].vx = velocities[i][0];
+          dancers[i].vy = velocities[i][1];
+        }
+        window.velocities = [];
       }
-    } else {
-      $(this).text('partner up');
-      $('.lineUpButton').text('line em up');
-      for (var i = 0; i < dancers.length; i++) {
-        dancers[i].vx = velocities[i][0];
-        dancers[i].vy = velocities[i][1];
-      }      
     }
   });
 
