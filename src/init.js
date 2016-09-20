@@ -27,13 +27,13 @@ $(document).ready(function() {
     // make a dancer with a random position
 
     var dancer = new dancerMakerFunction(
-      $('body').height() * (.05 + Math.random() * .9),
-      $('body').width() * (.05 + Math.random() * .9),
+      $('body').height() * (.5 + Math.random() * .3),
+      $('body').width() * (.1 + Math.random() * .7),
       Math.random() * 1000
     );
     console.log(dancer.$node);
     var randIndex = Math.floor(Math.random() * dancerTypes.length);
-    dancer.$node.append('<img src = ' + dancerTypes[1] + ' />');
+    dancer.$node.append('<img src = ' + dancerTypes[randIndex] + ' />');
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
   });
@@ -77,6 +77,7 @@ $(document).ready(function() {
               top: dancers[i - Math.floor(dancers.length / 2)].top,
               left: dancers[i - Math.floor(dancers.length / 2)].left + 100
             }, 750);
+            $(dancers[i]).addClass('flipped');
           }
         }
       } else {
@@ -91,15 +92,27 @@ $(document).ready(function() {
     }
   });
 
-  $('.dancer').mouseenter(function() {
+  $('body').on('hover', '.dancer', function() {
     // console.log('mouseOver');
-    $(this).animate({ borderColor: 'blue' }, 500);
+    $(this).addClass('hovered');
+  }, function() {
+    $(this).removeClass('hovered');
   });
 
-  $(document).on('mouseenter', '.dancer', function() {
-    console.log(this);
-    $(this).animate({ borderWidth: '20px' }, 500);
+  $('body').on('mouseenter', '.dancer', function() {
+    console.log($(this).children()[0]);
+    $($(this).children()[0]).animate({
+      height: '300px',
+      width: 'auto'
+    }, 1000);
   });
 
+  $('body').on('mouseleave', '.dancer', function() {
+    console.log($(this).children()[0]);
+    $($(this).children()[0]).animate({
+      height: '200px',
+      width: 'auto'
+    }, 750);
+  });
 
 });

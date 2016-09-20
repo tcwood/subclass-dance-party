@@ -16,5 +16,17 @@
       <a href="#" class="lineUpButton">line em up</a>
       <a href="#" class="partnerUpButton">partner up</a>    </div>
     <script src="src/init.js"></script>
+    <audio id='smooth' 
+      preload='auto';
+      src='smooth.mp3'>
+    <script>
+      myAudio = document.getElementById('smooth');
+      myAudio.addEventListener('canplaythrough', function() {
+        if (this.currentTime < 14) {
+          this.currentTime = 14;
+        }
+        this.play();
+      });
+    </script>
   </body>
 </html>
