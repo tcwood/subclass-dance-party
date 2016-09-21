@@ -20,13 +20,8 @@ MakeSlidingDancer.prototype.step = function() {
     this.vx *= -1;
   }
 
-
-
-
-
   this.top += this.vy;
   this.left += this.vx;
   this.setPosition(this.top, this.left);
   oldStep.call(this);
-  // this.$node.toggle();
 };

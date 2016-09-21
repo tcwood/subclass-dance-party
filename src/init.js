@@ -3,7 +3,7 @@ $(document).ready(function() {
   window.linedUp = false;
   window.partneredUp = false;
   window.velocities = [];
-  window.dancerTypes = ['cat.gif', 'jef.gif', 'mrBean.gif', 'oldDancer.gif', 'tentacleGuitar.gif'];
+  window.dancerTypes = ['img/cat.gif', 'img/jef.gif', 'img/mrBean.gif', 'img/oldDancer.gif', 'img/tentacleGuitar.gif'];
 
   $('.addDancerButton').on('click', function(event) {
 
