@@ -6,37 +6,25 @@ $(document).ready(function() {
   window.dancerTypes = ['cat.gif', 'jef.gif', 'mrBean.gif', 'oldDancer.gif', 'tentacleGuitar.gif'];
 
   $('.addDancerButton').on('click', function(event) {
-    /* This function sets up the click handlers for the create-dancer
-     * buttons on dancefloor.html. You should only need to make one small change to it.
-     * As long as the "data-dancer-maker-function-name" attribute of a
-     * class="addDancerButton" DOM node matches one of the names of the
-     * maker functions available in the global scope, clicking that node
-     * will call the function to make the dancer.
-     */
 
-    /* dancerMakerFunctionName is a string which must match
-     * one of the dancer maker functions available in global scope.
-     * A new object of the given type will be created and added
-     * to the stage.
-     */
     var dancerMakerFunctionName = $(this).data('dancer-maker-function-name');
 
     // get the maker function for the kind of dancer we're supposed to make
     var dancerMakerFunction = window[dancerMakerFunctionName];
 
     // make a dancer with a random position
-
     var dancer = new dancerMakerFunction(
       $('body').height() * (.5 + Math.random() * .3),
       $('body').width() * (.1 + Math.random() * .7),
       Math.random() * 1000
     );
-    console.log(dancer.$node);
+    //Create a random dancer
     var randIndex = Math.floor(Math.random() * dancerTypes.length);
     dancer.$node.append('<img src = ' + dancerTypes[randIndex] + ' />');
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
   });
+  //Line up dancers
   $('.lineUpButton').on('click', function(event) {
     if (dancers.length) {
       window.linedUp = window.linedUp === false ? true : false;
@@ -51,6 +39,7 @@ $(document).ready(function() {
           dancers[i].vx = 0;
           dancers[i].vy = 0;
         }
+      //Return dancers to original velocities
       } else {
         $(this).text('line em up');
         $('.partnerUpButton').text('partner up');
@@ -62,18 +51,45 @@ $(document).ready(function() {
       }
     }
   });
-
+  //Partner up dancers
   $('.partnerUpButton').on('click', function(event) {
     if (dancers.length) {
+      console.log(dancers[dancers.length - 1]);
       window.partneredUp = window.partneredUp === false ? true : false;
       if (window.partneredUp) {
         $(this).text('party on!');
-        for (var i = 0; i < dancers.length; i++) {
+        //Lonely dancer code
+        if (dancers.length % 2 === 1) {
+          dancers[dancers.length - 1].vx = 0;
+          dancers[dancers.length - 1].vy = 0;
+          //Lonely dancer going to middle of screen
+          $(dancers[dancers.length - 1]).animate({
+            top: dancers[0].height / 2,
+            left: dancers[0].width / 2
+          }, 1000);
+          //lonely dancer waits in middle
+          $(dancers[dancers.length - 1]).animate({
+            top: dancers[0].height / 2,
+            left: dancers[0].width / 2
+          }, 1000);
+          $($(dancers)[dancers.length - 1].$node.children()[0]).animate({
+            height: '200px' 
+          }, 2000);
+          //Lonely dancer shrinks and goes off screen
+          $($(dancers)[dancers.length - 1].$node.children()[0]).animate({
+            height: '0px' 
+          }, 5000);
+          $(dancers[dancers.length - 1]).animate({
+            top: dancers[0].height * .55,
+            left: dancers[0].width * .7
+          }, 5000);
+        }
+        
+        for (var i = 0; i < 2 * Math.floor(dancers.length / 2); i++) {
           velocities.push([dancers[i].vx, dancers[i].vy]);
-          
+          //Bring dancers to their partners
           if (i > dancers.length / 2 - 1) {
             $($(dancers)[i].$node.children()[0]).addClass('flipped');
-            // console.log($(dancers)[i].$node.children()[0]);
             $(dancers[i]).animate({
               top: dancers[i - Math.floor(dancers.length / 2)].top,
               left: dancers[i - Math.floor(dancers.length / 2)].left + 100
@@ -82,6 +98,7 @@ $(document).ready(function() {
           dancers[i].vx = 0;
           dancers[i].vy = 0;
         }
+        //Return dancers to original velocities
       } else {
         $(this).text('partner up');
         $('.lineUpButton').text('line em up');
@@ -93,17 +110,15 @@ $(document).ready(function() {
       }
     }
   });
-
+  //Enlarge dancer on mouseover
   $('body').on('mouseenter', '.dancer', function() {
-    // console.log($(this).children()[0]);
     $($(this).children()[0]).animate({
       height: '300px',
       width: 'auto'
     }, 1000);
   });
-
+  //Return dancer to normal on mouseleave
   $('body').on('mouseleave', '.dancer', function() {
-    // console.log($(this).children()[0]);
     $($(this).children()[0]).animate({
       height: '200px',
       width: 'auto'
