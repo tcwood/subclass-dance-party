@@ -20,7 +20,12 @@ $(document).ready(function() {
     );
     //Create a random dancer
     var randIndex = Math.floor(Math.random() * dancerTypes.length);
+
+    //Attach image to node
     dancer.$node.append('<img src = ' + dancerTypes[randIndex] + ' />');
+
+    //Assign node zIndex so dancers stack properly
+    dancer.$node.css('zIndex', Math.floor(dancer.top));
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
   });
@@ -115,7 +120,7 @@ $(document).ready(function() {
     $($(this).children()[0]).animate({
       height: '300px',
       width: 'auto'
-    }, 1000);
+    }, 750);
   });
   //Return dancer to normal on mouseleave
   $('body').on('mouseleave', '.dancer', function() {

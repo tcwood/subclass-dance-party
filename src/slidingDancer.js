@@ -23,5 +23,6 @@ MakeSlidingDancer.prototype.step = function() {
   this.top += this.vy;
   this.left += this.vx;
   this.setPosition(this.top, this.left);
+  this.$node.css('zIndex', Math.floor(this.top));
   oldStep.call(this);
 };
